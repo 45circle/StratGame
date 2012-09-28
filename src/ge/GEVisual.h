@@ -75,7 +75,7 @@ class GEMapGrid : public GEVisual {
   void select(cell_rect_t area);
   void selectUnderCursor();
   cell_rect_t getSelection();
-  virtual void draw(point_t cell);
+  virtual void draw(point_t point);
   virtual GEVisual *clone();
 };
 
@@ -85,7 +85,7 @@ class GEMapCell : public GEVisual {
   GEMapGrid *parent;
   GEMapCell();
   ~GEMapCell();
-  virtual void draw(point_t cell);
+  virtual void draw(point_t point);
   virtual GEVisual *clone();
   friend GEMapGrid;
 };
