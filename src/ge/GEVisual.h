@@ -1,82 +1,117 @@
 #ifndef GEVISUAL_H
 #define GEVISUAL_H
 
-struct point_t {
+struct vector_t {
   float x;
   float y;
   float z;
 };
 
 struct rect_t {
-  point_t start;
-  point_t end;
+  vector_t start;
+  vector_t end;
 };
 
-struct cell_point_t {
+struct cell_vector_t {
   int x;
   int y;
   int z;
 };
 
 struct cell_rect_t {
-  cell_point_t start;
-  cell_point_t end;
+  cell_vector_t start;
+  cell_vector_t end;
 };
 
-rect_t cell_point_rect(cell_point_t c);
+rect_t cell_point_rect(cell_vector_t c);
 rect_t cell_point_rect(int x, int y, int z); 
 
 typedef int GEColor;
 class GEVisual {
  public:
-  virtual void draw(point_t point)=0;
+  GEVisual();
+  virtual ~GEVisual();
+  virtual void draw(vector_t point, vector_t cell_size)=0;
   virtual GEVisual *clone()=0;
 };
 
-class GEComposite {
+class GEVisualComponent : public GEVisual{
+ public:
+  virtual ~GEVisualComponent();
+  virtual void draw(vector_t point, vector_t cell_size)=0;
+  virtual GEVisual *clone()=0;
+};
+
+class GESphere : public GEVisualComponent {
  private:
-  GEVisual *components;
+  int radius;
+ public:
+  GESphere(int radius);
+  virtual ~GESphere();
+  int get_radius();
+  virtual ~GEVisualComponent();
+  virtual void draw(vector_t point, vector_t cell_size);
+  virtual GEVisual *clone();
+};
+
+class GEQuad : public GEVisualComponent {
+ private:
+  cell_vector_t dimensions;
+ public:
+  GEQuad(cell_vector_t dimensions);
+  virtual ~GEQuad();
+  cell_vector_t get_dinensions();
+  virtual ~GEVisualComponent();
+  virtual void draw(vector_t point, vector_t cell_size);
+  virtual GEVisual *clone();
+};
+
+class GEComposite : public GEVisualComponent{
+ private:
+  GEVisualComponent *components;
  public:
   GEComposite();
-  ~GEComposite();
+  virtual ~GEComposite();
   void addComponent(GEVisual *component);
   GEVisual *getComponent(int i);
-  virtual void draw(point_t point);
+  virtual void draw(vector_t point, vector_t cell_size);
   virtual GEVisual *clone();
 };
 
 class GEMapCell;
 class GEMapGrid;
 
-struct ge_event_data_t {
+struct gemap_event_data_t {
   GEColor bg_color;
   GEVisual *visual;
-  cell_point_t cell;
+  cell_vector_t cell;
   GEMapGrid *map;
   void *opaque;
   int delete_visual;
 };
 
-typedef void (*on_event_f) (ge_event_data_t &event_data);
+typedef void (*on_map_event_f) (gemap_event_data_t &event_data);
 
 class GEMapGrid : public GEVisual {
  private:
   cell_rect_t selection;
-  cell_point_t cursor;
+  cell_vector_t cursor;
   GEMapCell *cells;
+  void touch(GEMapCell *cell, int key_event);
  public:
   GEMapGrid();
-  ~GEMapGrid();
-  on_event_f onOver;
-  on_event_f onSelect;
-  on_event_f onDraw;
-  void moveCursorTo(cell_point_t cell);
-  cell_point_t getCellUnderCursor();
+  virtual ~GEMapGrid();
+  on_map_event_f onOver;
+  on_map_event_f onSelect;
+  on_map_event_f onDraw;
+  void moveCursorTo(cell_vector_t cell);
+  cell_vector_t getCellUnderCursor();
   void select(cell_rect_t area);
   void selectUnderCursor();
   cell_rect_t getSelection();
-  virtual void draw(point_t point);
+  virtual void draw(vector_t point, vector_t cell_size);
   virtual GEVisual *clone();
+  friend class GEMapCell;
 };
 
 class GEMapCell : public GEVisual {
@@ -84,9 +119,9 @@ class GEMapCell : public GEVisual {
   GEColor bg_color;
   GEMapGrid *parent;
   GEMapCell();
-  ~GEMapCell();
-  virtual void draw(point_t point);
+  virtual ~GEMapCell();
+  virtual void draw(vector_t point, vector_t cell_size);
   virtual GEVisual *clone();
-  friend GEMapGrid;
+  friend class GEMapGrid;
 };
 #endif
