@@ -41,8 +41,8 @@ class GEComposite {
   ~GEComposite();
   void addComponent(GEVisual *component);
   GEVisual *getComponent(int i);
-  virtual void draw(point_t point)=0;
-  virtual GEVisual *clone()=0;
+  virtual void draw(point_t point);
+  virtual GEVisual *clone();
 };
 
 class GEMapCell;
