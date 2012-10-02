@@ -1,0 +1,4 @@
+[Project]
+Name=StratGame
+Manager=KDevCMakeManager
+VersionControl=kdevgit

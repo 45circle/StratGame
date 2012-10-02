@@ -1,4 +1,4 @@
-#ifndef COREVISUAL_H
+#ifdef COREVISUAL_H
 #define COREVISUAL_H
 
 #define KEV_LEFT_MOUSE_DOWN
