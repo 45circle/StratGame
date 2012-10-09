@@ -3,7 +3,7 @@
 #include "utils/uniquekeytree.h"
 #include "corevisual.h"
 
-class Core : CoreVisual
+class Core
 {
 private:
   static UniqueKeyTree tree;
