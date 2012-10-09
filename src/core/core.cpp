@@ -4,12 +4,32 @@
 #include <GL/glut.h>
 
 UniqueKeyTree Core::tree;
+static Core game;
+
+void Core::touch(int key_event)
+{
+  switch (key_event)
+  {
+    case CoreVisual::KEV_LEFT_MOUSE_DOWN:
+      break;
+    case CoreVisual::KEV_LEFT_MOUSE_UP:
+      break;
+    case CoreVisual::KEV_RIGHT_MOUSE_DOWN:
+      break;
+    case CoreVisual::KEV_RIGHT_MOUSE_UP:
+      break;
+    case CoreVisual::KEV_NONE:
+      break;
+  }
+}
+
 void config()
 {
 }
 
 void idle_func()
 {
+  game.touch(CoreVisual::KEV_NONE);
   glutSwapBuffers();
 }
 
@@ -32,6 +52,5 @@ void Core::init(int counter, char **args)
 
 int main(int argc, char **argv)
 {
-  Core game;
   game.init(argc, argv);
 }
