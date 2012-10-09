@@ -1,5 +1,5 @@
 #include "uniquekeytree.h"
-#define MAX_KEY 2147483648
+#define MAX_KEY 2147483648U
 #define MIN_KEY -MAX_KEY
 
 int UniqueKeyTree::add(void *obj, int min, int max)
@@ -7,14 +7,14 @@ int UniqueKeyTree::add(void *obj, int min, int max)
   int ret;
   if (left == NULL) {
     ret = (min + key) / 2;
-    left = add_new_node(ret, obj); 
+    left = new UniqueKeyTree(ret, obj);
   } else if (right == NULL) {
     ret = (max + key) / 2;
-    right = add_new_node(ret, obj); 
-  } else if (left.count() >= right.count()) {
-    right.add(obj, key, max);
+    right = new UniqueKeyTree(ret, obj);
+  } else if (left->get_count() >= right->get_count()) {
+    right->add(obj, key, max);
   } else {
-    left.add(obj, min, key);
+    left->add(obj, min, key);
   }
 
   count++;
@@ -36,7 +36,7 @@ void *UniqueKeyTree::search(int k)
     return left ? left->search(k) : NULL;
 }
 
-int UniqueKeyTree::count()
+int UniqueKeyTree::get_count()
 {
   return count;
 }

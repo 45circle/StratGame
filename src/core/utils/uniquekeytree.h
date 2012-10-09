@@ -1,5 +1,7 @@
-#ifdef UNIQUEKEYTREE_H
+#ifndef UNIQUEKEYTREE_H
 #define UNIQUEKEYTREE_H
+#include <stdlib.h>
+
 class UniqueKeyTree {
  private:
   UniqueKeyTree *left, *right, *parent;
@@ -7,7 +9,7 @@ class UniqueKeyTree {
   void *obj;
   int count;
   int add(void *obj, int min, int max);
-  UniqueKeyTree(void *o, int k) {
+  UniqueKeyTree(int k, void *o) {
     obj = o;
     key = k;
   }
@@ -29,9 +31,10 @@ class UniqueKeyTree {
     if (parent)
       delete parent;
   }
-  
+
   int add(void *obj);
   void *search(int key);
-  int count();
-} 
+  int get_count();
+};
+
 #endif

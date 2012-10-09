@@ -1,10 +1,14 @@
 #ifndef CORE_H
 #define CORE_H
+#include "utils/uniquekeytree.h"
 
-class core
+class Core
 {
-  core();
-  ~core();
-}
+private:
+  static UniqueKeyTree tree;
+
+public:
+  void static init(int counter, char **args);
+};
 
 #endif
