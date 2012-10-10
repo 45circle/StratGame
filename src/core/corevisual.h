@@ -1,20 +1,16 @@
 #ifndef COREVISUAL_H
 #define COREVISUAL_H
+#include <GL/glut.h>
 
-//#define KEV_LEFT_MOUSE_DOWN
-//#define KEV_LEFT_MOUSE_UP
-//#define KEV_RIGHT_MOUSE_DOWN
-//#define KEV_RIGHT_MOUSE_UP
-//#define KEV_NONE
+#define  KEV_MOUSE_LEFT  GLUT_LEFT_BUTTON
+#define  KEV_MOUSE_RIGHT GLUT_RIGHT_BUTTON
 
 class CoreVisual {
  private:
   int key;
  public:
-  enum {KEV_LEFT_MOUSE_DOWN, KEV_LEFT_MOUSE_UP, KEV_RIGHT_MOUSE_DOWN, KEV_RIGHT_MOUSE_UP, KEV_NONE};
-
   int getKey();
-  virtual void touch(int key_event) = 0;
-  ~CoreVisual() {}
+  virtual void touch(int key_event, int down) = 0;
+  virtual ~CoreVisual() {}
 };
 #endif

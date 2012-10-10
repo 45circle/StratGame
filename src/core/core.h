@@ -3,13 +3,15 @@
 #include "utils/uniquekeytree.h"
 #include "corevisual.h"
 
-class Core : CoreVisual
+class Core
 {
 private:
   static UniqueKeyTree tree;
+  static int width, height, view_angle;
 public:
   void static init(int counter, char **args);
-  void touch(int key_event);
+  int getSelectId(int x, int y);
+  void select(int x, int y, int key_event, int down);
 };
 
 #endif
