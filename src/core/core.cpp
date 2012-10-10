@@ -4,6 +4,10 @@
 #include <GL/glut.h>
 
 UniqueKeyTree Core::tree;
+<<<<<<< HEAD
+=======
+static Core game;
+>>>>>>> 65d16911d9d1f0545a047daf7f514baa1b13dae7
 
 void config()
 {
