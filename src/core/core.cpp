@@ -4,10 +4,6 @@
 #include <GL/glut.h>
 
 UniqueKeyTree Core::tree;
-<<<<<<< HEAD
-=======
-static Core game;
->>>>>>> 65d16911d9d1f0545a047daf7f514baa1b13dae7
 
 void config()
 {
@@ -55,12 +51,11 @@ int Core::getSelectId(int x, int y)
   glMatrixMode(GL_PROJECTION);
   glPushMatrix();
   glLoadIdentity();
-  
+
   // Restrict the draw to an area around the cursor
   gluPickMatrix(x, y, 1, 1, view);
   gluPerspective(view_angle, (float)width/height, .1, 100 );
-  
-  
+
   // Draw the objects onto the screen
   glMatrixMode(GL_MODELVIEW);
   
@@ -70,22 +65,16 @@ int Core::getSelectId(int x, int y)
   // Do you remeber? We do pushMatrix in PROJECTION mode
   glMatrixMode(GL_PROJECTION);
   glPopMatrix();
-  
-  
+
   // Get number of objects drawed in that area
   // and return to render mode
   hits = glRenderMode(GL_RENDER);
   
-  /*
-		Print a list of the objects
-  */
+  // Print a list of the objects
   //list_hits(hits, buff);
   
-  /*
-    uncomment this to show the whole buffer
-    * /
-    gl_selall(hits, buff);
-  */
+  // uncomment this to show the whole buffer
+  gl_selall(hits, buff);
   
   glMatrixMode(GL_MODELVIEW);
   
