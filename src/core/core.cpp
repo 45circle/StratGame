@@ -1,9 +1,12 @@
 #include "core.h"
+#include "../ge/GEVisual.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
 
 UniqueKeyTree Core::tree;
+int Core::width, Core::height, Core::view_angle;
+CoreVisual *Core::visual_root;
 
 void config()
 {
@@ -25,7 +28,7 @@ void mouse_func(int button, int state, int x, int y)
   Core::select(x, y, button, state ==  GLUT_DOWN);
 }
 
-int Core::getSelectId(int x, int y)
+int Core::getSelectedId(int x, int y)
 {
   GLuint buff[64] = {0};
   GLint hits, view[4];
@@ -74,7 +77,7 @@ int Core::getSelectId(int x, int y)
   //list_hits(hits, buff);
   
   // uncomment this to show the whole buffer
-  gl_selall(hits, buff);
+  //gl_selall(hits, buff);
   
   glMatrixMode(GL_MODELVIEW);
   
@@ -89,9 +92,18 @@ void Core::select(int x, int y, int key_event, int down)
   int id;
   CoreVisual *visual;
   id = getSelectedId(x, y);
-  visual = Core::tree.search(id);
+  visual = (CoreVisual *) tree.search(id);
   if (visual != NULL)
-    visual.touch(key_event, down);
+    visual->touch(key_event, down);
+}
+
+void Core::draw()
+{
+  vector_t unit_size;
+  unit_size.x = 1;
+  unit_size.y = 1;
+  if (visual_root != NULL)
+    visual_root->draw(unit_size);
 }
 
 void Core::init(int counter, char **args)
@@ -108,5 +120,5 @@ void Core::init(int counter, char **args)
 
 int main(int argc, char **argv)
 {
-  game.init(argc, argv);
+  Core::init(argc, argv);
 }

@@ -2,12 +2,7 @@
 #define GEVISUAL_H
 #include <math.h>
 #include "../core/corevisual.h"
-
-struct vector_t {
-    float x;
-    float y;
-    float z;
-};
+#include "../core/utils/vector.h"
 
 struct rect_t {
     vector_t start;
